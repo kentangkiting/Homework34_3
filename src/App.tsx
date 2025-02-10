@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import {
+  Button,
+  Grid2,
+  InputAdornment,
+  MenuItem,
+  Stack,
+  TextField,
+} from "@mui/material";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [username, setUserName] = useState("");
+  const [jabatan, setJabatan] = useState("");
+  const [users, setUsers] = useState([]);
+  const jenisJabatan = [
+    { value: "Administrator", label: "Administrator" },
+    { value: "Manager", label: "Manager" },
+    { value: "SPV", label: "SPV" },
+    { value: "Agent", label: "Agent" },
+  ];
 
+  const onHandleClick = () => {
+    const user = [...users, { user: username, jabatan: jabatan }];
+    setUsers(user);
+  };
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <Stack spacing={3}>
+        <TextField
+          label="Nama User"
+          value={username}
+          onChange={(e) => setUserName(e.target.value)}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle />
+                </InputAdornment>
+              ),
+            },
+          }}
+          variant="standard"
+        />
+        <TextField
+          select
+          label="Pilih Jabatan"
+          value={jabatan}
+          onChange={(e) => setJabatan(e.target.value)}
+          helperText="pilih jabatan"
+        >
+          {jenisJabatan.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <Button variant="contained" onClick={onHandleClick}>
+          Submit
+        </Button>
+        {users.map((a) => (
+          <div>
+            <p>userName: {a.user}</p>
+            <p>userName: {a.jabatan}</p>
+          </div>
+        ))}
+      </Stack>
+    </div>
+  );
 }
 
-export default App
+export default App;
